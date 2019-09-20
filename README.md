@@ -1,2 +1,40 @@
 # C-sharp-program
-Learning Image Processing with C sharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using static System.Console;
+using static System.Convert;
+
+namespace Ch06Ex05
+{
+    class Program
+    {
+        delegate double ProcessDelegate(double param1, double param2);
+        static double Multiply(double param1, double param2) => param1 * param2;//lamda表达式
+        static double Divide(double param1, double param2) => param1 / param2;
+
+        static void Main(string[] args)
+        {
+            ProcessDelegate process;
+            WriteLine("Enter 2 numbers separated with a comma:");
+            string input = ReadLine();
+            int commaPos = input.IndexOf(',');//IndexOf取字符逗号在字符串input中的位置
+            double param1 = ToDouble(input.Substring(0, commaPos));//Substring(第一个参数，第二个参数)：截取字符串，截取的长度按数据中的类型长度算，
+                                                                  //第一个参数是开始的位置，第二个参数是截取的长度。
+            double param2 = ToDouble(input.Substring(commaPos + 1,
+                                             input.Length - commaPos - 1));
+            WriteLine("Enter M to multiply or D to divide:");
+            input = ReadLine();
+            if (input == "M")
+                process = new ProcessDelegate(Multiply);
+            else
+                process = new ProcessDelegate(Divide);
+            WriteLine("Result: {0}", process(param1, param2));
+            ReadKey();
+        }
+    }
+}
+
